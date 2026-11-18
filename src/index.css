@@ -7,24 +7,24 @@ html {
 }
 
 body {
-  background-color: #fbf8f3;
-  color: #14201c;
-  font-family: 'Jost', sans-serif;
+  background-color: #FFF9F6;
+  color: #261D2A;
+  font-family: 'DM Sans', sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
 .font-display {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: 'Playfair Display', serif;
 }
 
 .gold-text {
   background: linear-gradient(
     100deg,
-    #a9843f 0%,
-    #e9d9ae 25%,
-    #c9a45c 50%,
-    #e9d9ae 75%,
-    #a9843f 100%
+    #A94F73 0%,
+    #F2C8D4 25%,
+    #CE7897 50%,
+    #F2C8D4 75%,
+    #A94F73 100%
   );
   background-size: 200% auto;
   -webkit-background-clip: text;
@@ -43,7 +43,7 @@ body {
 }
 
 .hairline {
-  background: linear-gradient(90deg, transparent, #c9a45c88, transparent);
+  background: linear-gradient(90deg, transparent, #CE789788, transparent);
   height: 1px;
 }
 
@@ -51,7 +51,7 @@ input[type='range'].vol {
   -webkit-appearance: none;
   appearance: none;
   height: 2px;
-  background: #c9a45c55;
+  background: #CE789755;
   border-radius: 9999px;
   outline: none;
 }
@@ -61,7 +61,7 @@ input[type='range'].vol::-webkit-slider-thumb {
   width: 10px;
   height: 10px;
   border-radius: 9999px;
-  background: #c9a45c;
+  background: #CE7897;
   cursor: pointer;
 }
 input[type='range'].vol::-moz-range-thumb {
@@ -69,7 +69,7 @@ input[type='range'].vol::-moz-range-thumb {
   height: 10px;
   border: none;
   border-radius: 9999px;
-  background: #c9a45c;
+  background: #CE7897;
   cursor: pointer;
 }
 
