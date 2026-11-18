@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 type RevealProps = {
   children: React.ReactNode;
@@ -7,33 +7,39 @@ type RevealProps = {
 };
 
 export default function Reveal({ children, delay = 0, className = '' }: RevealProps) {
+  const elementRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
-    const els = document.querySelectorAll<HTMLElement>('[data-reveal="pending"]');
+    const element = elementRef.current;
+    if (!element) return;
+
+    // Keep content visible in browsers without IntersectionObserver.
+    if (!('IntersectionObserver' in window)) {
+      element.classList.add('is-visible');
+      return;
+    }
+
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            el.style.transitionDelay = `${el.dataset.delayMs ?? 0}ms`;
-            el.classList.add('is-visible');
-            observer.unobserve(el);
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          element.style.transitionDelay = `${delay}ms`;
+          element.classList.add('is-visible');
+          observer.unobserve(element);
+        }
       },
       { threshold: 0.15 }
     );
-    els.forEach((el) => observer.observe(el));
+
+    observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [delay]);
 
   return (
     <div
-      data-reveal="pending"
-      data-delay-ms={delay}
+      ref={elementRef}
       className={`transition-all duration-700 ease-out opacity-0 translate-y-6 [&.is-visible]:opacity-100 [&.is-visible]:translate-y-0 ${className}`}
     >
       {children}
     </div>
   );
-
 }
