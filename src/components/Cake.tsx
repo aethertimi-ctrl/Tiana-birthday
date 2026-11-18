@@ -38,7 +38,7 @@ function Candle({ lit, position, onToggle }: CandleProps) {
           <span
             className="flame absolute bottom-0 w-3 h-5 rounded-full"
             style={{
-              background: 'radial-gradient(circle at 50% 70%, #FFF3C4 0%, #E9D9AE 40%, #DDBE7E 70%, #C9A45C 100%)',
+              background: 'radial-gradient(circle at 50% 70%, #FFF0F4 0%, #F2C8D4 40%, #E7A9BD 70%, #CE7897 100%)',
               boxShadow: '0 0 12px 3px rgba(221, 190, 126, 0.65)',
             }}
           />
@@ -52,7 +52,7 @@ function Candle({ lit, position, onToggle }: CandleProps) {
       <span
         className="w-1.5 h-12 rounded-full group-hover:h-14 transition-all duration-200"
         style={{
-          background: 'repeating-linear-gradient(45deg, #F6F1E8 0 5px, #C9A45C 5px 10px)',
+          background: 'repeating-linear-gradient(45deg, #FFF9F6 0 5px, #CE7897 5px 10px)',
         }}
       />
     </button>
@@ -90,26 +90,26 @@ export default function Cake({ onAllOut }: CakeProps) {
       <div
         className="w-64 h-16 sm:w-72 sm:h-20 rounded-t-lg relative shadow-lg shadow-emerald-950/20"
         style={{
-          background: 'linear-gradient(180deg, #F6F1E8 0%, #EDE4D4 100%)',
+          background: 'linear-gradient(180deg, #FFF9F6 0%, #F1DDE3 100%)',
         }}
       >
         <div
           className="absolute inset-x-0 top-0 h-5 rounded-t-lg"
           style={{
-            background: 'linear-gradient(180deg, #FDFBF7 0%, #F6F1E8 60%)',
+            background: 'linear-gradient(180deg, #FDFBF7 0%, #FFF9F6 60%)',
           }}
         />
-        <div className="absolute inset-x-0 bottom-0 h-2" style={{ background: '#C9A45C55' }} />
+        <div className="absolute inset-x-0 bottom-0 h-2" style={{ background: '#CE789755' }} />
       </div>
 
       {/* Bottom tier */}
       <div
         className="w-80 h-20 sm:w-96 sm:h-24 rounded-b-lg relative shadow-xl shadow-emerald-950/25"
         style={{
-          background: 'linear-gradient(180deg, #1B4439 0%, #0E2620 100%)',
+          background: 'linear-gradient(180deg, #49304F 0%, #281A30 100%)',
         }}
       >
-        <div className="absolute inset-x-0 top-0 h-2" style={{ background: '#C9A45C88' }} />
+        <div className="absolute inset-x-0 top-0 h-2" style={{ background: '#CE789788' }} />
         <div className="absolute inset-3 border border-gold-400/20 rounded pointer-events-none" />
       </div>
 
