@@ -1,8 +1,7 @@
-Put up to 5 photos in this folder.
+Photos no longer go in this folder.
 
-After adding them, open src/data/gallery.ts and set each photo's src to its
-file name, for example:
+Put them in src/assets/gallery/ instead. Files there are picked up
+automatically and work correctly when the site is hosted under /Tiana-template/
+(absolute paths like "/gallery/1.jpg" would break there).
 
-  { src: '/gallery/1.jpg', caption: 'The golden hour' }
-
-Leave src empty ('') for any slot you are not using.
+See src/assets/gallery/README.txt for the details.
