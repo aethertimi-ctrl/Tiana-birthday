@@ -9,7 +9,7 @@ export default function Gallery() {
     <div>
       {isEmpty && (
         <div className="max-w-xl mx-auto rounded-2xl border border-dashed border-gold-500/40 bg-gold-300/5 px-8 py-12 text-center">
-          <p className="font-display text-xl italic text-ink-800">Moments will live here.</p>
+          <p className="font-display text-xl italic text-ink-800">Your memories will look lovely here.</p>
           <p className="mt-2 text-sm text-ink-800/60 leading-relaxed">
             Add up to five photographs to the gallery folder in the project, and they will appear in this frame.
           </p>
