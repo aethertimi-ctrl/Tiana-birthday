@@ -2,9 +2,10 @@
  * Personalize the celebration here.
  */
 export const recipient = {
-  // Her name, as it should appear in the headline. Leave '' to skip it.
-  name: '',
+  // Her name, as it should appear in the headline.
+  name: 'Tiana',
 };
 
-// Her birthday, as month (1-12) and day. The countdown aims at the next one.
-export const birthday = { month: 6, day: 21 };
+// The first birthday date this page is celebrating. The countdown rolls
+// forward to the next year after this date has passed.
+export const birthday = { year: 2026, month: 11, day: 20 };
