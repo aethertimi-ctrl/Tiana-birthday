@@ -119,12 +119,12 @@ export default function App() {
         </div>
       </header>
 
-      {/* Celebration — countdown + cake, revealed after the envelope opens */}
+      {/* The complete celebration stays hidden until the envelope is opened. */}
+      <div className={opened ? 'contents' : 'hidden'} aria-hidden={!opened}>
+      {/* Celebration — countdown + cake */}
       <section
         id="celebration"
-        className={`max-w-6xl mx-auto px-6 py-24 scroll-mt-8 transition-opacity duration-1000 ${
-          opened ? 'opacity-100' : 'opacity-100'
-        }`}
+        className="max-w-6xl mx-auto px-6 py-24 scroll-mt-8"
       >
         <Reveal className="text-center mb-16">
           <p className="text-xs uppercase tracking-widest2 text-gold-600">Until the big day</p>
@@ -224,6 +224,7 @@ export default function App() {
           </Reveal>
         </div>
       </footer>
+      </div>
     </main>
   );
 }

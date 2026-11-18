@@ -67,12 +67,15 @@ export default function Cake({ onAllOut }: CakeProps) {
   const allOut = litCount === 0;
 
   function blow(index: number) {
-    setLit((prev) => {
-      const next = [...prev];
-      next[index] = !next[index];
-      if (next.every((v) => !v)) onAllOut?.();
-      return next;
-    });
+    const willBlowOutLastCandle =
+      lit[index] && lit.every((isLit, candleIndex) => candleIndex === index || !isLit);
+
+    setLit((prev) => prev.map((isLit, candleIndex) =>
+      candleIndex === index ? !isLit : isLit
+    ));
+
+    // Keep side effects outside the state updater (React StrictMode may replay it).
+    if (willBlowOutLastCandle) onAllOut?.();
   }
 
   return (

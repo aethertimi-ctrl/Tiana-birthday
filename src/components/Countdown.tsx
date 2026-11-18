@@ -4,18 +4,19 @@ import { birthday } from '@/data/celebration';
 
 function nextBirthday(): Date {
   const now = new Date();
-  let target = new Date(now.getFullYear(), birthday.month - 1, birthday.day, 0, 0, 0);
-  // If today IS the big day, count toward midnight so the page still counts down.
-  if (
+  const target = new Date(birthday.year, birthday.month - 1, birthday.day, 0, 0, 0);
+  const isBirthdayToday =
+    now.getFullYear() === target.getFullYear() &&
     now.getMonth() === target.getMonth() &&
-    now.getDate() === target.getDate() &&
-    now.getHours() === 0
-  ) {
-    return target;
+    now.getDate() === target.getDate();
+
+  // Keep the countdown at zero throughout the birthday itself.
+  if (isBirthdayToday) return target;
+
+  if (target.getTime() < now.getTime()) {
+    target.setFullYear(now.getFullYear() + 1);
   }
-  if (target.getTime() <= now.getTime()) {
-    target = new Date(now.getFullYear() + 1, birthday.month - 1, birthday.day, 0, 0, 0);
-  }
+
   return target;
 }
 
@@ -38,8 +39,8 @@ export default function Countdown() {
   const [parts, setParts] = useState<Parts>(() => diffParts(target));
 
   useEffect(() => {
-    const id = setInterval(() => setParts(diffParts(target)), 1000);
-    return () => clearInterval(id);
+    const id = window.setInterval(() => setParts(diffParts(target)), 1000);
+    return () => window.clearInterval(id);
   }, [target]);
 
   const cells: Array<[string, string]> = [
@@ -50,7 +51,11 @@ export default function Countdown() {
   ];
 
   return (
-    <div className="flex justify-center gap-3 sm:gap-5">
+    <div
+      className="flex justify-center gap-3 sm:gap-5"
+      role="timer"
+      aria-label={`Time remaining until ${birthday.month}/${birthday.day}/${target.getFullYear()}`}
+    >
       {cells.map(([value, label]) => (
         <div
           key={label}
