@@ -22,7 +22,10 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         tabIndex={0}
         aria-label={open ? 'Letter opened' : 'Open the letter'}
         onKeyDown={(e) => {
-          if (!open && (e.key === 'Enter' || e.key === ' ')) onOpen();
+          if (!open && (e.key === 'Enter' || e.key === ' ')) {
+            e.preventDefault();
+            onOpen();
+          }
         }}
       >
         {/* Letter sliding up out of the envelope */}
