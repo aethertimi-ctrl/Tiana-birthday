@@ -1,4 +1,4 @@
-import { Sparkles, Heart } from 'lucide-react';
+import { Sparkles, Star } from 'lucide-react';
 
 type EnvelopeProps = {
   name: string;
@@ -36,7 +36,7 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         >
           <p className="font-display italic text-2xl text-ink-800">For {name}</p>
           <p className="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">
-            With love
+            A birthday surprise
           </p>
         </div>
 
@@ -47,7 +47,7 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         <div
           className="absolute inset-0 rounded-lg"
           style={{
-            background: 'linear-gradient(180deg, #1B4439 0%, #12332B 100%)',
+            background: 'linear-gradient(180deg, #49304F 0%, #34213D 100%)',
             clipPath:
               'polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 22%, 50% 62%, 100% 22%, 100% 100%, 0 100%)',
           }}
@@ -70,9 +70,9 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         {!open && (
           <div
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-emerald-950/50 ring-2 ring-gold-400/40"
-            style={{ background: 'radial-gradient(circle at 35% 35%, #A9843F, #7a5c28)' }}
+            style={{ background: 'radial-gradient(circle at 35% 35%, #A94F73, #783B56)' }}
           >
-            <Heart className="w-5 h-5 text-cream-50" fill="currentColor" strokeWidth={0} />
+            <Star className="w-5 h-5 text-cream-50" fill="currentColor" strokeWidth={0} />
           </div>
         )}
       </div>
