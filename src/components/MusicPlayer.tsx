@@ -26,11 +26,19 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
   const canPlay = tracks.length > 0 && Boolean(track?.src);
 
   useEffect(() => {
+    if (autoPlayToken > 0) setPlaying(true);
+  }, [autoPlayToken]);
+
+  useEffect(() => {
     const audio = audioRef.current;
-    if (!autoPlayToken || !audio || !canPlay) return;
+    if (!audio || !canPlay || !playing) return;
+
     audio.play().catch(() => setPlaying(false));
-    setPlaying(true);
-  }, [autoPlayToken, canPlay]);
+  }, [index, playing, canPlay]);
+
+  useEffect(() => {
+    if (audioRef.current) audioRef.current.volume = volume;
+  }, [volume]);
 
   const progressPct = useMemo(
     () => (duration > 0 ? (progress / duration) * 100 : 0),
@@ -40,13 +48,7 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
   function toggle() {
     const audio = audioRef.current;
     if (!audio || !canPlay) return;
-    if (playing) {
-      audio.pause();
-      setPlaying(false);
-    } else {
-      audio.play().catch(() => setPlaying(false));
-      setPlaying(true);
-    }
+    setPlaying((isPlaying) => !isPlaying);
   }
 
   function skip(delta: number) {
