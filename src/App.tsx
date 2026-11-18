@@ -6,8 +6,12 @@ import Countdown from '@/components/Countdown';
 import Cake from '@/components/Cake';
 import Gallery from '@/components/Gallery';
 import MusicPlayer from '@/components/MusicPlayer';
+import Portrait from '@/components/Portrait';
 import Reveal from '@/components/Reveal';
 import { recipient, birthday } from '@/data/celebration';
+import { photos, portrait } from '@/data/gallery';
+import { tracks } from '@/data/music';
+import { isBirthdayToday } from '@/lib/birthday';
 
 const wishes = [
   {
@@ -29,9 +33,16 @@ const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
+// A section with nothing in it would show setup hints to the birthday girl, so
+// on the published site it simply stays out until photos / songs are added.
+// While developing (`npm run dev`) both always show, so the layout can be seen.
+const showGallery = photos.length > 0 || import.meta.env.DEV;
+const showMusic = tracks.length > 0 || import.meta.env.DEV;
+
 export default function App() {
   const [opened, setOpened] = useState(false);
   const [confettiToken, setConfettiToken] = useState(0);
+  const [birthdayToday] = useState(isBirthdayToday);
   const name = recipient.name.trim();
 
   const her = name ? name : 'beautiful';
@@ -39,8 +50,11 @@ export default function App() {
   function openEnvelope() {
     setOpened(true);
     setConfettiToken(Date.now());
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     window.setTimeout(() => {
-      document.getElementById('celebration')?.scrollIntoView({ behavior: 'smooth' });
+      document
+        .getElementById('celebration')
+        ?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
     }, 900);
   }
 
@@ -67,6 +81,8 @@ export default function App() {
             <Sparkles className="w-4 h-4" strokeWidth={1.5} />
             <span className="hairline w-14" />
           </div>
+
+          {portrait ? <Portrait photo={portrait} name={name} /> : null}
 
           <p
             className="animate-fade-up mt-8 text-xs uppercase tracking-widest2 text-gold-400"
@@ -127,9 +143,13 @@ export default function App() {
         className="max-w-6xl mx-auto px-6 py-24 scroll-mt-8"
       >
         <Reveal className="text-center mb-16">
-          <p className="text-xs uppercase tracking-widest2 text-gold-600">Until the big day</p>
+          <p className="text-xs uppercase tracking-widest2 text-gold-600">
+            {birthdayToday ? 'The day is here' : 'Until the big day'}
+          </p>
           <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">
-            {MONTHS[birthday.month - 1]} {birthday.day} is coming
+            {birthdayToday
+              ? 'Today is the day'
+              : `${MONTHS[birthday.month - 1]} ${birthday.day} is coming`}
           </h2>
           <div className="mt-6 flex justify-center">
             <span className="hairline w-40" />
@@ -156,16 +176,18 @@ export default function App() {
       </section>
 
       {/* Gallery */}
-      <section id="gallery" className="max-w-6xl mx-auto px-6 pb-24 scroll-mt-8">
-        <Reveal className="text-center mb-14">
-          <p className="text-xs uppercase tracking-widest2 text-gold-600">The gallery</p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Moments of her</h2>
-          <div className="mt-6 flex justify-center">
-            <span className="hairline w-40" />
-          </div>
-        </Reveal>
-        <Gallery />
-      </section>
+      {showGallery && (
+        <section id="gallery" className="max-w-6xl mx-auto px-6 pb-24 scroll-mt-8">
+          <Reveal className="text-center mb-14">
+            <p className="text-xs uppercase tracking-widest2 text-gold-600">The gallery</p>
+            <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Moments of her</h2>
+            <div className="mt-6 flex justify-center">
+              <span className="hairline w-40" />
+            </div>
+          </Reveal>
+          <Gallery />
+        </section>
+      )}
 
       {/* Wishes */}
       <section className="bg-emerald-950 text-cream-50 relative overflow-hidden">
@@ -193,18 +215,20 @@ export default function App() {
       </section>
 
       {/* Music */}
-      <section className="max-w-6xl mx-auto px-6 py-24">
-        <Reveal className="text-center mb-12">
-          <p className="text-xs uppercase tracking-widest2 text-gold-600">The soundtrack</p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Her songs</h2>
-          <div className="mt-6 flex justify-center">
-            <span className="hairline w-40" />
-          </div>
-        </Reveal>
-        <Reveal delay={120}>
-          <MusicPlayer autoPlayToken={opened ? 1 : 0} />
-        </Reveal>
-      </section>
+      {showMusic && (
+        <section className="max-w-6xl mx-auto px-6 py-24">
+          <Reveal className="text-center mb-12">
+            <p className="text-xs uppercase tracking-widest2 text-gold-600">The soundtrack</p>
+            <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Her songs</h2>
+            <div className="mt-6 flex justify-center">
+              <span className="hairline w-40" />
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <MusicPlayer autoPlayToken={opened ? 1 : 0} />
+          </Reveal>
+        </section>
+      )}
 
       {/* Closing */}
       <footer className="bg-emerald-950 text-cream-50">

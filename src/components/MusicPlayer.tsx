@@ -29,16 +29,28 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
     if (autoPlayToken > 0) setPlaying(true);
   }, [autoPlayToken]);
 
+  // Keep the <audio> element in step with `playing`. Previously only the play
+  // half existed, so pressing Pause flipped the button but the music kept going.
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio || !canPlay || !playing) return;
+    if (!audio || !canPlay) return;
 
-    audio.play().catch(() => setPlaying(false));
+    if (playing) {
+      audio.play().catch((err: unknown) => {
+        // Skipping tracks quickly interrupts a pending play(); that's not a failure.
+        if (err instanceof DOMException && err.name === 'AbortError') return;
+        setPlaying(false);
+      });
+    } else {
+      audio.pause();
+    }
   }, [index, playing, canPlay]);
 
+  // `canPlay` is a dependency so the saved volume is applied when the <audio>
+  // element first mounts (it used to start at 100% while the slider showed 80%).
   useEffect(() => {
     if (audioRef.current) audioRef.current.volume = volume;
-  }, [volume]);
+  }, [volume, canPlay]);
 
   const progressPct = useMemo(
     () => (duration > 0 ? (progress / duration) * 100 : 0),
@@ -46,8 +58,7 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
   );
 
   function toggle() {
-    const audio = audioRef.current;
-    if (!audio || !canPlay) return;
+    if (!canPlay) return;
     setPlaying((isPlaying) => !isPlaying);
   }
 
@@ -63,6 +74,13 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
     const rect = e.currentTarget.getBoundingClientRect();
     const ratio = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
     audio.currentTime = ratio * duration;
+    setProgress(audio.currentTime);
+  }
+
+  function nudge(seconds: number) {
+    const audio = audioRef.current;
+    if (!audio || duration <= 0) return;
+    audio.currentTime = Math.min(Math.max(audio.currentTime + seconds, 0), duration);
     setProgress(audio.currentTime);
   }
 
@@ -96,18 +114,44 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
           <p className="mt-2 font-display text-2xl italic text-cream-100">{track.title}</p>
         </div>
 
-        <div className="px-8" onClick={seek}>
-          <div className="relative h-1 rounded-full bg-cream-50/15 cursor-pointer group">
-            <div
-              className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-gold-600 to-gold-300"
-              style={{ width: `${progressPct}%` }}
-            />
-            <div
-              className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold-300 opacity-0 group-hover:opacity-100 transition-opacity"
-              style={{ left: `${progressPct}%` }}
-            />
+        <div className="px-8">
+          {/*
+            The click target is the bar's own wrapper (vertical padding only) so the
+            seek maths uses the bar's real width; it used to sit on the padded parent,
+            which skewed every seek. The extra height also makes it easy to tap.
+          */}
+          <div
+            className="group cursor-pointer py-2 focus-visible:outline focus-visible:outline-1 focus-visible:outline-gold-400"
+            onClick={seek}
+            role="slider"
+            tabIndex={0}
+            aria-label="Seek"
+            aria-valuemin={0}
+            aria-valuemax={Math.round(duration)}
+            aria-valuenow={Math.round(progress)}
+            aria-valuetext={`${formatTime(progress)} of ${formatTime(duration)}`}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                nudge(5);
+              } else if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                nudge(-5);
+              }
+            }}
+          >
+            <div className="relative h-1 rounded-full bg-cream-50/15">
+              <div
+                className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-gold-600 to-gold-300"
+                style={{ width: `${progressPct}%` }}
+              />
+              <div
+                className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gold-300 opacity-0 group-hover:opacity-100 transition-opacity"
+                style={{ left: `${progressPct}%` }}
+              />
+            </div>
           </div>
-          <div className="flex justify-between mt-2 text-[11px] text-cream-50/50 tabular-nums">
+          <div className="flex justify-between mt-1 text-[11px] text-cream-50/50 tabular-nums">
             <span>{formatTime(progress)}</span>
             <span>{formatTime(duration)}</span>
           </div>
@@ -151,11 +195,7 @@ export default function MusicPlayer({ autoPlayToken = 0 }: MusicPlayerProps) {
             step={0.01}
             value={volume}
             aria-label="Volume"
-            onChange={(e) => {
-              const v = Number(e.target.value);
-              setVolume(v);
-              if (audioRef.current) audioRef.current.volume = v;
-            }}
+            onChange={(e) => setVolume(Number(e.target.value))}
           />
         </div>
       </div>

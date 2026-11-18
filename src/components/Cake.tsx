@@ -29,7 +29,7 @@ function Candle({ lit, position, onToggle }: CandleProps) {
         onToggle();
       }}
       aria-label={lit ? 'Blow out this candle' : 'Relight this candle'}
-      className="absolute bottom-full flex flex-col items-center group"
+      className="absolute bottom-0 flex flex-col items-center group"
       style={{ left: position, transform: 'translateX(-50%)' }}
     >
       {/* Flame */}
@@ -80,7 +80,13 @@ export default function Cake({ onAllOut }: CakeProps) {
 
   return (
     <div className="flex flex-col items-center">
-      <div className="relative h-28 flex items-end" style={{ perspective: '600px' }}>
+      {/*
+        The candle row must be exactly as wide as the top tier. Without an
+        explicit width it collapses to 0px (all children are absolute), which
+        stacked every candle on one spot, and the old `bottom-full` anchoring
+        floated them above the cake instead of standing on it.
+      */}
+      <div className="relative h-24 w-64 sm:w-72">
         {CANDLE_POSITIONS.map((pos, i) => (
           <Candle key={i} lit={lit[i]} position={pos} onToggle={() => blow(i)} />
         ))}
