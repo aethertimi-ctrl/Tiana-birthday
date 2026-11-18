@@ -5,30 +5,30 @@ export default {
     extend: {
       colors: {
         cream: {
-          50: '#FBF8F3',
-          100: '#F6F1E8',
-          200: '#EDE4D4',
+          50: '#FFF9F6',
+          100: '#F9EEF0',
+          200: '#F1DDE3',
         },
         ink: {
-          900: '#14201C',
-          800: '#1C2B26',
+          900: '#261D2A',
+          800: '#3A2B3E',
         },
         emerald: {
-          950: '#0E2620',
-          900: '#12332B',
-          800: '#1B4439',
-          700: '#28584A',
+          950: '#281A30',
+          900: '#34213D',
+          800: '#49304F',
+          700: '#63415F',
         },
         gold: {
-          300: '#E9D9AE',
-          400: '#DDBE7E',
-          500: '#C9A45C',
-          600: '#A9843F',
+          300: '#F2C8D4',
+          400: '#E7A9BD',
+          500: '#CE7897',
+          600: '#A94F73',
         },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
-        body: ['Jost', 'sans-serif'],
+        display: ['"Playfair Display"', 'serif'],
+        body: ['"DM Sans"', 'sans-serif'],
       },
       animation: {
         'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
