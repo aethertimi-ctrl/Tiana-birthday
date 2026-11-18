@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Sparkles, Heart } from 'lucide-react';
+import { Sparkles, Star } from 'lucide-react';
 import Envelope from '@/components/Envelope';
 import Confetti from '@/components/Confetti';
 import Countdown from '@/components/Countdown';
@@ -12,15 +12,15 @@ import { recipient, birthday } from '@/data/celebration';
 const wishes = [
   {
     title: 'May this year be gentle with you',
-    body: 'May it hand you slow mornings, long lunches and the kind of laughter that makes your cheeks ache, beautiful girl.',
+    body: 'May it bring fresh opportunities, joyful surprises, meaningful connections, and plenty of reasons to celebrate.',
   },
   {
     title: 'May you keep choosing yourself',
-    body: 'You have grown into a woman of quiet strength and unmistakable grace. Never shrink to fit a room you have outgrown.',
+    body: 'Keep making room for the things that inspire you. Your creativity, confidence and kindness deserve to take up space.',
   },
   {
     title: 'May good things find you early',
-    body: 'New cities, new favorite songs, new reasons to celebrate. This year already looks beautiful on you, darling.',
+    body: 'New places, new favorite songs, bold ideas and exciting beginnings. May the year ahead be full of possibility.',
   },
 ];
 
@@ -72,7 +72,7 @@ export default function App() {
             className="animate-fade-up mt-8 text-xs uppercase tracking-widest2 text-gold-400"
             style={{ animationDelay: '150ms' }}
           >
-            A letter has arrived for a very special woman
+            A little celebration, made just for you
           </p>
 
           <h1
@@ -159,7 +159,7 @@ export default function App() {
       <section id="gallery" className="max-w-6xl mx-auto px-6 pb-24 scroll-mt-8">
         <Reveal className="text-center mb-14">
           <p className="text-xs uppercase tracking-widest2 text-gold-600">The gallery</p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Moments of her</h2>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">A few favourite moments</h2>
           <div className="mt-6 flex justify-center">
             <span className="hairline w-40" />
           </div>
@@ -174,7 +174,7 @@ export default function App() {
           <Reveal className="text-center mb-16">
             <p className="text-xs uppercase tracking-widest2 text-gold-400">Three wishes</p>
             <h2 className="mt-4 font-display text-4xl sm:text-5xl italic text-cream-100">
-              For the woman of the hour
+              A toast to you
             </h2>
           </Reveal>
 
@@ -196,7 +196,7 @@ export default function App() {
       <section className="max-w-6xl mx-auto px-6 py-24">
         <Reveal className="text-center mb-12">
           <p className="text-xs uppercase tracking-widest2 text-gold-600">The soundtrack</p>
-          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">Her songs</h2>
+          <h2 className="mt-4 font-display text-4xl sm:text-5xl italic">A soundtrack for the day</h2>
           <div className="mt-6 flex justify-center">
             <span className="hairline w-40" />
           </div>
@@ -212,14 +212,14 @@ export default function App() {
           <Reveal>
             <div className="flex items-center justify-center gap-3 text-gold-400">
               <span className="hairline w-14" />
-              <Heart className="w-4 h-4" fill="currentColor" strokeWidth={0} />
+              <Star className="w-4 h-4" fill="currentColor" strokeWidth={0} />
               <span className="hairline w-14" />
             </div>
             <p className="mt-8 font-display text-3xl sm:text-4xl italic text-cream-100 leading-snug">
-              Here's to you, and every year you make lovelier.
+              Here's to fresh beginnings, bright moments and everything wonderful ahead.
             </p>
             <p className="mt-6 text-xs uppercase tracking-widest2 text-cream-100/50">
-              With all our love
+              With warmest wishes
             </p>
           </Reveal>
         </div>
