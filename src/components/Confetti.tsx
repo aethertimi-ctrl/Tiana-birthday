@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
-const COLORS = ['#CE7897', '#F2C8D4', '#49304F', '#E7A9BD', '#FFF9F6', '#A94F73'];
+const COLORS = ['#B3202F', '#CDA667', '#E7C58D', '#7A1727', '#FFF9F2', '#D9434F'];
 const LOVE_LABELS = ['love', '♡', 'love', '♥'];
 
 export default function Confetti({ token }: { token: number }) {
@@ -19,7 +19,7 @@ export default function Confetti({ token }: { token: number }) {
 
   const pieces = useMemo(
     () =>
-      Array.from({ length: 90 }, (_, i) => ({
+      Array.from({ length: 40 }, (_, i) => ({
         id: `${token}-${i}`,
         left: Math.random() * 100,
         delay: Math.random() * 0.8,

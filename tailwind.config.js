@@ -4,46 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50: '#FFF9F6',
-          100: '#F9EEF0',
-          200: '#F1DDE3',
-        },
-        ink: {
-          900: '#261D2A',
-          800: '#3A2B3E',
-          50: '#FFFDF9',
-          100: '#F7EFDF',
-          200: '#EDE0C4',
-        },
-        ink: {
-          900: '#250B10',
-          800: '#38151B',
-        },
-        // Keeping the existing emerald utility names preserves every section
-        // while changing the whole visual theme to deep red.
-        emerald: {
-          950: '#281A30',
-          900: '#34213D',
-          800: '#49304F',
-          700: '#63415F',
-        },
-        gold: {
-          300: '#F2C8D4',
-          400: '#E7A9BD',
-          500: '#CE7897',
-          600: '#A94F73',
-          950: '#22070C',
-          900: '#3A0A13',
-          800: '#741421',
-          700: '#9D1C2D',
-        },
-        gold: {
-          300: '#F3DFC1',
-          400: '#E7C58D',
-          500: '#CDA667',
-          600: '#A97D3A',
-        },
+        cream: { 50: '#FFF9F2', 100: '#F8EEDF', 200: '#F0E1C8' },
+        ink: { 900: '#250B10', 800: '#38151B' },
+        // Utility name kept from the original theme; this is now the deep red.
+        emerald: { 950: '#2E0A12', 900: '#4A0E19', 800: '#7A1727', 700: '#8F2033' },
+        gold: { 300: '#F3DFC1', 400: '#E7C58D', 500: '#CDA667', 600: '#A97D3A' },
       },
       fontFamily: {
         display: ['"Playfair Display"', 'serif'],

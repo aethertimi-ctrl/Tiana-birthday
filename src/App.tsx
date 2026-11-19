@@ -11,6 +11,7 @@ import Reveal from '@/components/Reveal';
 import { recipient } from '@/data/celebration';
 import { photos, portrait } from '@/data/gallery';
 import { birthdayLabel, birthdayStart, hasArrived } from '@/lib/birthday';
+import { preloadImages } from '@/lib/preload';
 import { pauseSongWhenHidden, playSong, track } from '@/lib/song';
 
 const wishes = [
@@ -45,12 +46,12 @@ function Backdrop() {
       <div
         className="absolute inset-0 opacity-[0.06]"
         style={{
-          backgroundImage: 'radial-gradient(circle at 1px 1px, #F2C8D4 1px, transparent 0)',
+          backgroundImage: 'radial-gradient(circle at 1px 1px, #F3DFC1 1px, transparent 0)',
           backgroundSize: '32px 32px',
         }}
       />
-      <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-gold-500/10 blur-3xl" />
-      <div className="absolute -bottom-32 -right-16 h-96 w-96 rounded-full bg-gold-500/10 blur-3xl" />
+      <div className="absolute -left-24 -top-24 h-96 w-96 rounded-full bg-[radial-gradient(closest-side,rgba(205,166,103,0.16),transparent)]" />
+      <div className="absolute -bottom-32 -right-16 h-96 w-96 rounded-full bg-[radial-gradient(closest-side,rgba(205,166,103,0.16),transparent)]" />
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
         <Sparkles className="animate-float-slow absolute left-[12%] top-[30%] h-4 w-4 text-gold-400/50" strokeWidth={1.5} />
         <Sparkles
@@ -77,6 +78,7 @@ export default function App() {
   const her = name || 'beautiful';
 
   useEffect(() => pauseSongWhenHidden(), []);
+  useEffect(() => preloadImages(), []);
   useEffect(() => () => window.clearTimeout(openTimer.current), []);
 
   function openEnvelope() {
@@ -130,7 +132,7 @@ export default function App() {
               </div>
               {portrait ? <Portrait photo={portrait} name={name} /> : null}
               <p className="animate-fade-up mt-8 text-xs uppercase leading-relaxed tracking-[0.25em] text-gold-400 sm:tracking-widest2" style={{ animationDelay: '150ms' }}>
-                A little celebration, made just for you
+                A letter has arrived for a very special woman
               </p>
               <h1 className="animate-fade-up mt-6 font-display text-5xl leading-[1.05] sm:text-7xl md:text-8xl" style={{ animationDelay: '300ms' }}>
                 Happy<br /><span className="gold-text italic">Birthday</span>
@@ -155,7 +157,7 @@ export default function App() {
             <section id="gallery" className="mx-auto max-w-6xl scroll-mt-8 px-6 pb-24">
               <Reveal className="mb-14 text-center">
                 <p className="text-xs uppercase tracking-widest2 text-gold-600">Memories</p>
-                <h2 className="mt-4 font-display text-4xl italic sm:text-5xl">A few favourite moments</h2>
+                <h2 className="mt-4 font-display text-4xl italic sm:text-5xl">Gallery</h2>
                 <div className="mt-6 flex justify-center"><span className="hairline w-40" /></div>
               </Reveal>
               <Gallery />
@@ -163,7 +165,7 @@ export default function App() {
           )}
 
           <section className="relative overflow-hidden bg-emerald-950 text-cream-50">
-            <div className="absolute left-1/2 top-0 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-gold-500/5 blur-3xl" />
+            <div className="absolute left-1/2 top-0 h-[42rem] w-[42rem] -translate-x-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(205,166,103,0.08),transparent)]" />
             <div className="relative mx-auto max-w-5xl px-6 py-24">
               <Reveal className="mb-16 text-center">
                 <p className="text-xs uppercase tracking-widest2 text-gold-400">Three wishes</p>

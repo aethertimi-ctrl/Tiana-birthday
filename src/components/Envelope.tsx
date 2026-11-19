@@ -1,4 +1,5 @@
-import { Sparkles, Star } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
+import WaxSeal from '@/components/WaxSeal';
 import { useRef } from 'react';
 
 type EnvelopeProps = {
@@ -7,7 +8,10 @@ type EnvelopeProps = {
   onOpen: () => void;
 };
 
+const SEAL_SIZE = 'h-20 w-20 sm:h-24 sm:w-24';
+
 export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
+  const initial = name.trim().charAt(0).toUpperCase() || '♥';
   const openingRef = useRef(false);
 
   function handleOpen() {
@@ -35,7 +39,7 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
           className="absolute inset-0 rounded-lg"
           aria-hidden="true"
           style={{
-            background: 'linear-gradient(180deg, #49304F 0%, #34213D 100%)',
+            background: 'linear-gradient(180deg, #7A1727 0%, #4A0E19 100%)',
             clipPath: 'polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 22%, 50% 62%, 100% 22%, 100% 100%, 0 100%)',
           }}
         />
@@ -43,13 +47,20 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         <span className="envelope-pocket envelope-pocket-right absolute inset-0 z-30" aria-hidden="true" />
         <span className="envelope-pocket envelope-pocket-bottom absolute inset-0 z-40" aria-hidden="true" />
         <span className={`envelope-flap absolute inset-x-0 top-0 z-50 origin-top ${open ? 'envelope-flap-open' : ''}`} aria-hidden="true" />
-        {!open && (
-          <span className="absolute left-1/2 top-1/2 z-[60] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full shadow-lg shadow-emerald-950/50 ring-2 ring-gold-400/40" style={{ background: 'radial-gradient(circle at 35% 35%, #A94F73, #783B56)' }} aria-hidden="true">
-            <Star className="h-5 w-5 text-cream-50" fill="currentColor" strokeWidth={0} />
-          </span>
-        )}
+        <span className="pointer-events-none absolute left-1/2 top-1/2 z-[60] -translate-x-1/2 -translate-y-1/2" aria-hidden="true">
+          {open ? (
+            <span className={`relative block ${SEAL_SIZE}`}>
+              <WaxSeal letter={initial} half="left" className="seal-half-left absolute inset-0 h-full w-full" />
+              <WaxSeal letter={initial} half="right" className="seal-half-right absolute inset-0 h-full w-full" />
+            </span>
+          ) : (
+            <span className="seal-pulse block">
+              <WaxSeal letter={initial} className={`${SEAL_SIZE} drop-shadow-[0_6px_10px_rgba(0,0,0,0.45)]`} />
+            </span>
+          )}
+        </span>
       </button>
-      {!open && <p className="mt-8 animate-pulse text-center text-xs uppercase tracking-widest2 text-gold-400">Tap to open your letter</p>}
+      {!open && <p className="mt-8 animate-pulse text-center text-xs uppercase tracking-widest2 text-gold-400">Tap the envelope to open</p>}
       {open && (
         <div className="mt-6 animate-fade-in text-center">
           <div className="inline-flex items-center gap-2 text-gold-300">
