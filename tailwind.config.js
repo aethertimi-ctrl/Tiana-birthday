@@ -5,25 +5,27 @@ export default {
     extend: {
       colors: {
         cream: {
-          50: '#FBF8F3',
-          100: '#F6F1E8',
-          200: '#EDE4D4',
+          50: '#FFFDF9',
+          100: '#F7EFDF',
+          200: '#EDE0C4',
         },
         ink: {
-          900: '#14201C',
-          800: '#1C2B26',
+          900: '#250B10',
+          800: '#38151B',
         },
+        // Keeping the existing emerald utility names preserves every section
+        // while changing the whole visual theme to deep red.
         emerald: {
-          950: '#0E2620',
-          900: '#12332B',
-          800: '#1B4439',
-          700: '#28584A',
+          950: '#22070C',
+          900: '#3A0A13',
+          800: '#741421',
+          700: '#9D1C2D',
         },
         gold: {
-          300: '#E9D9AE',
-          400: '#DDBE7E',
-          500: '#C9A45C',
-          600: '#A9843F',
+          300: '#F3DFC1',
+          400: '#E7C58D',
+          500: '#CDA667',
+          600: '#A97D3A',
         },
       },
       fontFamily: {

@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-const COLORS = ['#C9A45C', '#E9D9AE', '#1B4439', '#DDBE7E', '#F6F1E8', '#28584A'];
+const COLORS = ['#CDA667', '#F3DFC1', '#741421', '#E7C58D', '#FFFDF9', '#9D1C2D'];
 
 export default function Confetti({ token }: { token: number }) {
   const pieces = useMemo(
@@ -15,27 +15,27 @@ export default function Confetti({ token }: { token: number }) {
         color: COLORS[i % COLORS.length],
         round: Math.random() > 0.6,
       })),
-    [token]
+    [token],
   );
 
   if (!token) return null;
 
   return (
     <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
-      {pieces.map((p) => (
+      {pieces.map((piece) => (
         <span
-          key={p.id}
+          key={piece.id}
           className="confetti-piece absolute top-0"
           style={
             {
-              left: `${p.left}%`,
-              width: p.size,
-              height: p.round ? p.size : p.size * 0.45,
-              backgroundColor: p.color,
-              borderRadius: p.round ? '9999px' : '1px',
-              '--delay': `${p.delay}s`,
-              '--dur': `${p.dur}s`,
-              '--drift': `${p.drift}px`,
+              left: `${piece.left}%`,
+              width: piece.size,
+              height: piece.round ? piece.size : piece.size * 0.45,
+              backgroundColor: piece.color,
+              borderRadius: piece.round ? '9999px' : '1px',
+              '--delay': `${piece.delay}s`,
+              '--dur': `${piece.dur}s`,
+              '--drift': `${piece.drift}px`,
             } as React.CSSProperties
           }
         />
