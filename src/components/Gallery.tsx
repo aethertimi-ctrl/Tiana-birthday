@@ -42,10 +42,12 @@ function SetupPreview() {
 
 export default function Gallery() {
   const [failed, setFailed] = useState<string[]>([]);
-  const [active, setActive] = useState<number | null>(null);
+  const [activeSource, setActiveSource] = useState<string | null>(null);
 
   // Drop any photo whose file can't be loaded instead of showing a broken-image icon.
   const visible = useMemo(() => photos.filter((p) => !failed.includes(p.src)), [failed]);
+  const activeIndex = activeSource === null ? null : visible.findIndex((photo) => photo.src === activeSource);
+  const lightboxIndex = activeIndex !== null && activeIndex >= 0 ? activeIndex : null;
 
   if (visible.length === 0) {
     return import.meta.env.DEV ? <SetupPreview /> : null;
@@ -58,9 +60,9 @@ export default function Gallery() {
           <Reveal key={photo.src} delay={(i % 3) * 120} className={CARD_WIDTH}>
             <button
               type="button"
-              onClick={() => setActive(i)}
+              onClick={() => setActiveSource(photo.src)}
               aria-label={photo.caption ? `Open photo: ${photo.caption}` : `Open photo ${i + 1}`}
-              className={`group block w-full rounded-sm bg-cream-50 p-2.5 pb-3 text-left shadow-lg shadow-emerald-950/15 ring-1 ring-gold-500/20 transition duration-500 ease-out hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-gold-500 sm:p-3 sm:pb-4 ${TILTS[i % TILTS.length]} md:hover:rotate-0`}
+              className={`group block w-full rounded-sm bg-cream-50 p-2.5 pb-3 text-left shadow-lg shadow-emerald-950/15 ring-1 ring-gold-500/20 transition duration-500 ease-out hover:-translate-y-1 hover:shadow-xl focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold-500 ${TILTS[i % TILTS.length]}`}
             >
               <span className="block aspect-[4/5] overflow-hidden bg-emerald-900/10">
                 <img
@@ -87,9 +89,9 @@ export default function Gallery() {
 
       <Lightbox
         photos={visible}
-        index={active}
-        onClose={() => setActive(null)}
-        onChange={setActive}
+        index={lightboxIndex}
+        onClose={() => setActiveSource(null)}
+        onChange={(index) => setActiveSource(visible[index]?.src ?? null)}
       />
     </>
   );

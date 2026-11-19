@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { Sparkles } from 'lucide-react';
 
 type EnvelopeProps = {
@@ -7,22 +8,23 @@ type EnvelopeProps = {
 };
 
 export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
+  const openingRef = useRef(false);
+
+  function handleOpen() {
+    // React state updates are asynchronous; this synchronous guard prevents
+    // double taps/click bubbling from scheduling multiple opening transitions.
+    if (open || openingRef.current) return;
+    openingRef.current = true;
+    onOpen();
+  }
+
   return (
     <div className="relative mx-auto animate-fade-up" style={{ animationDelay: '600ms' }}>
       <div
         className={`envelope-shell relative mx-auto ${open ? 'envelope-shell-open' : 'envelope-shell-sealed'} ${
           open ? 'cursor-default' : 'cursor-pointer'
         }`}
-        onClick={() => !open && onOpen()}
-        role="button"
-        tabIndex={open ? -1 : 0}
-        aria-label={open ? 'Letter opened' : 'Open the letter'}
-        onKeyDown={(event) => {
-          if (!open && (event.key === 'Enter' || event.key === ' ')) {
-            event.preventDefault();
-            onOpen();
-          }
-        }}
+        onClick={handleOpen}
       >
         <div
           className={`envelope-letter absolute left-1/2 bottom-3 z-10 ${open ? 'envelope-letter-open' : ''}`}
@@ -50,7 +52,7 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
             className="wax-seal absolute left-1/2 top-[51%] z-[60] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
             onClick={(event) => {
               event.stopPropagation();
-              onOpen();
+              handleOpen();
             }}
             aria-label="Open the letter"
           >
