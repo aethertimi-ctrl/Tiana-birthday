@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 
 const COLORS = ['#CE7897', '#F2C8D4', '#49304F', '#E7A9BD', '#FFF9F6', '#A94F73'];
-const COLORS = ['#CDA667', '#F3DFC1', '#741421', '#E7C58D', '#FFFDF9', '#9D1C2D'];
 const LOVE_LABELS = ['love', '♡', 'love', '♥'];
 
 export default function Confetti({ token }: { token: number }) {
@@ -38,7 +37,7 @@ export default function Confetti({ token }: { token: number }) {
   if (!token || !visible) return null;
 
   return (
-    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden>
+    <div className="pointer-events-none fixed inset-0 z-50 overflow-hidden" aria-hidden="true">
       {pieces.map((piece) => (
         <span
           key={piece.id}
