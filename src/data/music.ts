@@ -6,6 +6,7 @@ export type Track = {
   src: string;
 };
 
+// The page plays a single song: the first entry below.
 export const tracks: Track[] = [
   { title: 'Feeling Good', artist: 'Nina Simone', src: feelingGood },
 ];

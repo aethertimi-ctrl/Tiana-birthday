@@ -13,8 +13,8 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
       style={{ animationDelay: '600ms', perspective: '1200px' }}
     >
       <div
-        className={`relative w-[19rem] h-48 sm:w-[22rem] sm:h-56 transition-transform duration-700 ${
-          open ? 'scale-90 opacity-70' : 'hover:scale-105 cursor-pointer'
+        className={`relative mx-auto w-[min(19rem,84vw)] aspect-[19/12] sm:w-[22rem] sm:aspect-[22/14] transition-transform duration-700 ${
+          open ? 'scale-90 opacity-70' : '[@media(hover:hover)]:hover:scale-105 cursor-pointer'
         }`}
         style={{ transformStyle: 'preserve-3d' }}
         onClick={() => !open && onOpen()}

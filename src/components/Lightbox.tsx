@@ -152,7 +152,7 @@ export default function Lightbox({ photos, index, onClose, onChange }: LightboxP
           key={photo.src}
           src={photo.src}
           alt={photo.caption || `Photo ${index + 1} of ${count}`}
-          className="mx-auto max-h-[78vh] w-auto max-w-full rounded-sm bg-cream-50 object-contain p-2 shadow-2xl sm:p-3"
+          className="lightbox-img mx-auto w-auto max-w-full rounded-sm bg-cream-50 object-contain p-2 shadow-2xl sm:p-3"
         />
         <figcaption className="mt-4 text-center text-cream-100">
           {photo.caption && <p className="font-display text-xl italic">{photo.caption}</p>}
