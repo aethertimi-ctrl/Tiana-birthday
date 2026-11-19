@@ -1,46 +1,51 @@
-import { useEffect, useState } from 'react';
-
-import { birthday } from '@/data/celebration';
-
-function nextBirthday(): Date {
-  const now = new Date();
-  const target = new Date(birthday.year, birthday.month - 1, birthday.day, 0, 0, 0);
-  const isBirthdayToday =
-    now.getFullYear() === target.getFullYear() &&
-    now.getMonth() === target.getMonth() &&
-    now.getDate() === target.getDate();
-
-  // Keep the countdown at zero throughout the birthday itself.
-  if (isBirthdayToday) return target;
-
-  if (target.getTime() < now.getTime()) {
-    target.setFullYear(now.getFullYear() + 1);
-  }
-
-  return target;
-}
+import { useEffect, useRef, useState } from 'react';
 
 type Parts = { days: number; hours: number; minutes: number; seconds: number };
 
 function diffParts(target: Date): Parts {
-  const ms = Math.max(target.getTime() - Date.now(), 0);
+  const totalSeconds = Math.max(Math.ceil((target.getTime() - Date.now()) / 1000), 0);
   return {
-    days: Math.floor(ms / 86_400_000),
-    hours: Math.floor((ms / 3_600_000) % 24),
-    minutes: Math.floor((ms / 60_000) % 60),
-    seconds: Math.floor((ms / 1_000) % 60),
+    days: Math.floor(totalSeconds / 86_400),
+    hours: Math.floor((totalSeconds % 86_400) / 3_600),
+    minutes: Math.floor((totalSeconds % 3_600) / 60),
+    seconds: totalSeconds % 60,
   };
 }
 
 const pad = (n: number) => n.toString().padStart(2, '0');
 
-export default function Countdown() {
-  const [target] = useState(nextBirthday);
+type CountdownProps = {
+  target: Date;
+  /** Called once, the moment the countdown reaches zero. */
+  onElapsed: () => void;
+};
+
+export default function Countdown({ target, onElapsed }: CountdownProps) {
   const [parts, setParts] = useState<Parts>(() => diffParts(target));
+  const elapsedRef = useRef(false);
+  const callbackRef = useRef(onElapsed);
 
   useEffect(() => {
-    const id = window.setInterval(() => setParts(diffParts(target)), 1000);
-    return () => window.clearInterval(id);
+    callbackRef.current = onElapsed;
+  }, [onElapsed]);
+
+  useEffect(() => {
+    function tick() {
+      setParts(diffParts(target));
+      if (!elapsedRef.current && target.getTime() <= Date.now()) {
+        elapsedRef.current = true;
+        callbackRef.current();
+      }
+    }
+
+    tick();
+    const id = window.setInterval(tick, 1000);
+    // Browsers slow timers in background tabs; catch up the instant she comes back.
+    document.addEventListener('visibilitychange', tick);
+    return () => {
+      window.clearInterval(id);
+      document.removeEventListener('visibilitychange', tick);
+    };
   }, [target]);
 
   const cells: Array<[string, string]> = [
@@ -50,21 +55,29 @@ export default function Countdown() {
     [pad(parts.seconds), 'Seconds'],
   ];
 
+  const dateText = target.toLocaleDateString('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  });
+
   return (
     <div
-      className="flex justify-center gap-3 sm:gap-5"
+      className="mx-auto grid max-w-md grid-cols-4 gap-2 sm:max-w-xl sm:gap-5"
       role="timer"
-      aria-label={`Time remaining until ${birthday.month}/${birthday.day}/${target.getFullYear()}`}
+      aria-label={`Time remaining until ${dateText}`}
     >
       {cells.map(([value, label]) => (
         <div
           key={label}
-          className="w-20 sm:w-24 rounded-xl border border-gold-500/30 bg-cream-100 px-2 py-4 text-center shadow-sm"
+          className="min-w-0 rounded-xl border border-gold-500/30 bg-cream-100 px-1 py-3 text-center shadow-sm sm:px-2 sm:py-4"
         >
-          <p className="font-display text-4xl sm:text-5xl text-emerald-900 tabular-nums leading-none">
+          <p className="font-display text-3xl leading-none text-emerald-900 tabular-nums sm:text-5xl">
             {value}
           </p>
-          <p className="mt-2 text-[10px] uppercase tracking-widest2 text-gold-600">{label}</p>
+          <p className="mt-2 truncate text-[9px] uppercase tracking-[0.2em] text-gold-600 sm:text-[10px] sm:tracking-widest2">
+            {label}
+          </p>
         </div>
       ))}
     </div>

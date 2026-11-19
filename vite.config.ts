@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react';
 import { fileURLToPath, URL } from 'node:url';
 
 export default defineConfig({
-  base: '/Tiana-template/',
+  // GitHub Pages hosts this project in a repository subpath; Vercel hosts it at the domain root.
+  base: process.env.GITHUB_ACTIONS ? '/Tiana-template/' : '/',
   plugins: [react()],
   resolve: {
     alias: {

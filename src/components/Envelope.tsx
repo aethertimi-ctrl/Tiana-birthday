@@ -1,4 +1,6 @@
 import { Sparkles, Star } from 'lucide-react';
+import { useRef } from 'react';
+import { Sparkles } from 'lucide-react';
 
 type EnvelopeProps = {
   name: string;
@@ -7,41 +9,38 @@ type EnvelopeProps = {
 };
 
 export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
+  const openingRef = useRef(false);
+
+  function handleOpen() {
+    // React state updates are asynchronous; this synchronous guard prevents
+    // double taps/click bubbling from scheduling multiple opening transitions.
+    if (open || openingRef.current) return;
+    openingRef.current = true;
+    onOpen();
+  }
+
   return (
-    <div
-      className="relative mx-auto animate-fade-up"
-      style={{ animationDelay: '600ms', perspective: '1200px' }}
-    >
+    <div className="relative mx-auto animate-fade-up" style={{ animationDelay: '600ms' }}>
       <div
-        className={`relative w-[19rem] h-48 sm:w-[22rem] sm:h-56 transition-transform duration-700 ${
-          open ? 'scale-90 opacity-70' : 'hover:scale-105 cursor-pointer'
+        className={`envelope-shell relative mx-auto ${open ? 'envelope-shell-open' : 'envelope-shell-sealed'} ${
+          open ? 'cursor-default' : 'cursor-pointer'
         }`}
-        style={{ transformStyle: 'preserve-3d' }}
-        onClick={() => !open && onOpen()}
-        role="button"
-        tabIndex={0}
-        aria-label={open ? 'Letter opened' : 'Open the letter'}
-        onKeyDown={(e) => {
-          if (!open && (e.key === 'Enter' || e.key === ' ')) {
-            e.preventDefault();
-            onOpen();
-          }
-        }}
+        onClick={handleOpen}
       >
-        {/* Letter sliding up out of the envelope */}
         <div
-          className={`absolute left-1/2 -translate-x-1/2 bottom-2 w-[88%] bg-cream-100 rounded-md shadow-lg px-6 py-6 text-center transition-all duration-1000 ease-out ${
-            open ? '-translate-y-[115%] rotate-[1deg]' : 'translate-y-0'
-          }`}
+          className={`envelope-letter absolute left-1/2 bottom-3 z-10 ${open ? 'envelope-letter-open' : ''}`}
+          aria-hidden={!open}
         >
           <p className="font-display italic text-2xl text-ink-800">For {name}</p>
           <p className="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">
             A birthday surprise
           </p>
+          <div className="envelope-letter-mark" />
+          <p className="font-display text-[1.7rem] italic leading-tight text-ink-800">For {name}</p>
+          <p className="mt-3 text-[10px] uppercase tracking-[0.35em] text-gold-600">With love</p>
         </div>
 
-        {/* Envelope back */}
-        <div className="absolute inset-0 rounded-lg bg-emerald-900 shadow-xl shadow-emerald-950/40" />
+        <div className="envelope-back absolute inset-0 z-20" />
 
         {/* Envelope front pockets */}
         <div
@@ -52,21 +51,15 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
               'polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 22%, 50% 62%, 100% 22%, 100% 100%, 0 100%)',
           }}
         />
+        <div className="envelope-pocket envelope-pocket-left absolute inset-0 z-30" />
+        <div className="envelope-pocket envelope-pocket-right absolute inset-0 z-30" />
+        <div className="envelope-pocket envelope-pocket-bottom absolute inset-0 z-40" />
 
-        {/* Flap */}
         <div
-          className={`absolute inset-x-0 top-0 h-1/2 origin-top transition-transform duration-700 ease-in-out ${
-            open ? '[transform:rotateX(180deg)]' : ''
-          }`}
-          style={{ transformStyle: 'preserve-3d', zIndex: open ? 0 : 20 }}
-        >
-          <div
-            className="w-full h-full rounded-t-lg bg-emerald-700 shadow-md"
-            style={{ clipPath: 'polygon(0 0, 100% 0, 50% 100%)' }}
-          />
-        </div>
+          className={`envelope-flap absolute inset-x-0 top-0 z-50 origin-top ${open ? 'envelope-flap-open' : ''}`}
+          aria-hidden="true"
+        />
 
-        {/* Wax seal */}
         {!open && (
           <div
             className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-30 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-emerald-950/50 ring-2 ring-gold-400/40"
@@ -74,21 +67,33 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
           >
             <Star className="w-5 h-5 text-cream-50" fill="currentColor" strokeWidth={0} />
           </div>
+          <button
+            type="button"
+            className="wax-seal absolute left-1/2 top-[51%] z-[60] flex -translate-x-1/2 -translate-y-1/2 items-center justify-center"
+            onClick={(event) => {
+              event.stopPropagation();
+              handleOpen();
+            }}
+            aria-label="Open the letter"
+          >
+            <span className="seal-thread" aria-hidden="true" />
+            <span className="relative z-10 font-display text-3xl font-semibold italic leading-none">T</span>
+          </button>
         )}
       </div>
 
       {!open && (
-        <p className="mt-8 text-center text-xs uppercase tracking-widest2 text-gold-400 animate-pulse">
-          Tap the envelope to open
+        <p className="mt-8 animate-pulse text-center text-xs uppercase tracking-widest2 text-gold-400">
+          Tap the T seal to open
         </p>
       )}
 
       {open && (
-        <div className="mt-6 text-center animate-fade-in">
+        <div className="mt-6 animate-fade-in text-center">
           <div className="inline-flex items-center gap-2 text-gold-300">
-            <Sparkles className="w-4 h-4" strokeWidth={1.5} />
+            <Sparkles className="h-4 w-4" strokeWidth={1.5} />
             <span className="text-xs uppercase tracking-widest2">The celebration begins</span>
-            <Sparkles className="w-4 h-4" strokeWidth={1.5} />
+            <Sparkles className="h-4 w-4" strokeWidth={1.5} />
           </div>
         </div>
       )}

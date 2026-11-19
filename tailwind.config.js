@@ -12,7 +12,16 @@ export default {
         ink: {
           900: '#261D2A',
           800: '#3A2B3E',
+          50: '#FFFDF9',
+          100: '#F7EFDF',
+          200: '#EDE0C4',
         },
+        ink: {
+          900: '#250B10',
+          800: '#38151B',
+        },
+        // Keeping the existing emerald utility names preserves every section
+        // while changing the whole visual theme to deep red.
         emerald: {
           950: '#281A30',
           900: '#34213D',
@@ -24,6 +33,16 @@ export default {
           400: '#E7A9BD',
           500: '#CE7897',
           600: '#A94F73',
+          950: '#22070C',
+          900: '#3A0A13',
+          800: '#741421',
+          700: '#9D1C2D',
+        },
+        gold: {
+          300: '#F3DFC1',
+          400: '#E7C58D',
+          500: '#CDA667',
+          600: '#A97D3A',
         },
       },
       fontFamily: {
