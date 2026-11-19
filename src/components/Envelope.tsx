@@ -1,6 +1,6 @@
 import { Sparkles } from 'lucide-react';
 
-type EnvelopeProps = {
+ type EnvelopeProps = {
   name: string;
   open: boolean;
   onOpen: () => void;
@@ -25,7 +25,6 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
         aria-label={open ? 'Letter opened' : 'Open the letter'}
         onKeyDown={(event) => {
           if (!open && (event.key === 'Enter' || event.key === ' ')) {
-            event.preventEvent?.();
             event.preventDefault();
             onOpen();
           }
@@ -36,8 +35,8 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
             open ? '-translate-y-[115%] rotate-[1deg]' : 'translate-y-0'
           }`}
         >
-          <p className="font-display italic text-2xl text-ink-800">For {name}</p>
-          <p className="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">With love</p>
+          <p class="font-display italic text-2xl text-ink-800">For {name}</p>
+          <p class="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">With love</p>
         </div>
 
         <div className="absolute inset-0 rounded-lg bg-emerald-900 shadow-xl shadow-emerald-950/40" />
