@@ -15,8 +15,8 @@ import { pauseSongWhenHidden, playSong, track } from '@/lib/song';
 
 const wishes = [
   {
-    title: 'May this year be gentle with you',
-    body: 'May it hand you slow mornings, long lunches and the kind of laughter that makes your cheeks ache, beautiful girl.',
+    title: 'Let this year be kind to you',
+    body: 'You deserve a year that feels gentle and full.',
   },
   {
     title: 'May you keep choosing yourself',
@@ -24,7 +24,7 @@ const wishes = [
   },
   {
     title: 'May good things find you early',
-    body: 'New cities, new favorite songs, new reasons to celebrate. This year already looks beautiful on you, darling.',
+    body: 'Never doubt that you are worthy of every beautiful thing coming your way',
   },
 ];
 
