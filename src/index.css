@@ -135,14 +135,32 @@ input[type='range'].vol::-moz-range-thumb {
   animation: confettiFall var(--dur, 3s) ease-in var(--delay, 0s) forwards;
 }
 
+.confetti-love {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 0.8rem;
+  font-style: italic;
+  font-weight: 700;
+  line-height: 1;
+  text-shadow: 0 1px 4px rgba(34, 7, 12, 0.18);
+  white-space: nowrap;
+}
+
 @keyframes confettiFall {
   0% {
     transform: translate3d(0, -8vh, 0) rotate(0deg);
     opacity: 1;
   }
+  45% {
+    transform: translate3d(calc(var(--drift, 0px) * 0.45), 50vh, 0) rotate(320deg);
+    opacity: 0.72;
+  }
+  75% {
+    transform: translate3d(calc(var(--drift, 0px) * 0.8), 82vh, 0) rotate(540deg);
+    opacity: 0.24;
+  }
   100% {
-    transform: translate3d(var(--drift, 0px), 110vh, 0) rotate(720deg);
-    opacity: 0.85;
+    transform: translate3d(var(--drift, 0px), 112vh, 0) rotate(720deg);
+    opacity: 0;
   }
 }
 
