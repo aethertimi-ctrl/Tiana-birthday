@@ -5,15 +5,8 @@ type CakeProps = {
   onAllOut?: () => void;
 };
 
-const CANDLE_POSITIONS = [
-  '12%',
-  '24%',
-  '36%',
-  '48%',
-  '60%',
-  '72%',
-  '84%',
-];
+// Evenly spaced and symmetric about the middle of the cake (10% … 90%).
+const CANDLE_POSITIONS = ['10%', '23.33%', '36.67%', '50%', '63.33%', '76.67%', '90%'];
 
 type CandleProps = {
   lit: boolean;
@@ -29,7 +22,7 @@ function Candle({ lit, position, onToggle }: CandleProps) {
         onToggle();
       }}
       aria-label={lit ? 'Blow out this candle' : 'Relight this candle'}
-      className="absolute bottom-0 flex flex-col items-center group"
+      className="absolute bottom-0 flex flex-col items-center group px-1 touch-manipulation"
       style={{ left: position, transform: 'translateX(-50%)' }}
     >
       {/* Flame */}
@@ -79,14 +72,16 @@ export default function Cake({ onAllOut }: CakeProps) {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    // Everything is sized as a share of this one box, so the cake shrinks with
+    // the screen instead of overflowing it on small phones.
+    <div className="mx-auto flex w-[min(24rem,84vw)] flex-col items-center">
       {/*
         The candle row must be exactly as wide as the top tier. Without an
         explicit width it collapses to 0px (all children are absolute), which
         stacked every candle on one spot, and the old `bottom-full` anchoring
         floated them above the cake instead of standing on it.
       */}
-      <div className="relative h-24 w-64 sm:w-72">
+      <div className="relative h-24 w-[72%]">
         {CANDLE_POSITIONS.map((pos, i) => (
           <Candle key={i} lit={lit[i]} position={pos} onToggle={() => blow(i)} />
         ))}
@@ -94,7 +89,7 @@ export default function Cake({ onAllOut }: CakeProps) {
 
       {/* Top tier */}
       <div
-        className="w-64 h-16 sm:w-72 sm:h-20 rounded-t-lg relative shadow-lg shadow-emerald-950/20"
+        className="w-[72%] h-16 sm:h-20 rounded-t-lg relative shadow-lg shadow-emerald-950/20"
         style={{
           background: 'linear-gradient(180deg, #F6F1E8 0%, #EDE4D4 100%)',
         }}
@@ -110,7 +105,7 @@ export default function Cake({ onAllOut }: CakeProps) {
 
       {/* Bottom tier */}
       <div
-        className="w-80 h-20 sm:w-96 sm:h-24 rounded-b-lg relative shadow-xl shadow-emerald-950/25"
+        className="w-full h-20 sm:h-24 rounded-b-lg relative shadow-xl shadow-emerald-950/25"
         style={{
           background: 'linear-gradient(180deg, #1B4439 0%, #0E2620 100%)',
         }}
@@ -120,10 +115,10 @@ export default function Cake({ onAllOut }: CakeProps) {
       </div>
 
       {/* Plate */}
-      <div className="mt-3 w-[22rem] sm:w-[26rem] h-2.5 rounded-full bg-gold-500/40" />
+      <div className="mt-3 w-[106%] h-2.5 rounded-full bg-gold-500/40" />
 
-      <div className="mt-8 flex items-center gap-4">
-        <p className="text-sm text-ink-800/70 italic font-display text-lg">
+      <div className="mt-8 flex w-[min(34rem,calc(100vw-3rem))] flex-col items-center gap-4 sm:flex-row sm:justify-center">
+        <p className="text-center text-lg italic font-display text-ink-800/70" aria-live="polite">
           {allOut
             ? 'Your wish is sealed. Happy birthday.'
             : `${litCount} candle${litCount === 1 ? '' : 's'} still flickering — tap to blow them out.`}

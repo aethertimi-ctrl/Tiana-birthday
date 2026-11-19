@@ -4,10 +4,14 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
+/* The dark green shows when a phone "rubber-bands" past the top or bottom of the
+   page (the hero and footer are both green), instead of a cream flash. */
 body {
-  background-color: #fbf8f3;
+  background-color: #0e2620;
   color: #14201c;
   font-family: 'Jost', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -15,6 +19,24 @@ body {
 
 .font-display {
   font-family: 'Cormorant Garamond', serif;
+}
+
+/* Full-screen first stage. `svh` is the height with the phone's browser bars
+   showing, so nothing is hidden behind the address bar; older browsers fall
+   back to `vh`. */
+.stage {
+  min-height: 100vh;
+  min-height: 100svh;
+}
+
+/* Photo viewer image: same dvh/vh fallback so it never overflows on phones. */
+.lightbox-img {
+  max-height: 78vh;
+  max-height: 78dvh;
+}
+
+button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 .gold-text {

@@ -1,13 +1,19 @@
 import { birthday } from '@/data/celebration';
 
-/**
- * True for the whole local calendar day of the birthday (and every
- * anniversary of it), so the page can switch from "is coming" to "is here".
- */
-export function isBirthdayToday(now: Date = new Date()): boolean {
-  return (
-    now.getFullYear() >= birthday.year &&
-    now.getMonth() === birthday.month - 1 &&
-    now.getDate() === birthday.day
-  );
+const MONTHS = [
+  'January', 'February', 'March', 'April', 'May', 'June',
+  'July', 'August', 'September', 'October', 'November', 'December',
+];
+
+/** Local midnight at the very start of the birthday, in the visitor's time zone. */
+export function birthdayStart(): Date {
+  return new Date(birthday.year, birthday.month - 1, birthday.day, 0, 0, 0);
 }
+
+/** True once the birthday has begun (and for every day after it). */
+export function hasArrived(now: number = Date.now()): boolean {
+  return now >= birthdayStart().getTime();
+}
+
+/** e.g. "November 20" */
+export const birthdayLabel = `${MONTHS[birthday.month - 1]} ${birthday.day}`;
