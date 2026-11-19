@@ -35,8 +35,8 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
             open ? '-translate-y-[115%] rotate-[1deg]' : 'translate-y-0'
           }`}
         >
-          <p class="font-display italic text-2xl text-ink-800">For {name}</p>
-          <p class="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">With love</p>
+          <p className="font-display italic text-2xl text-ink-800">For {name}</p>
+          <p className="mt-2 text-[11px] uppercase tracking-widest2 text-gold-600">With love</p>
         </div>
 
         <div className="absolute inset-0 rounded-lg bg-emerald-900 shadow-xl shadow-emerald-950/40" />
@@ -64,7 +64,7 @@ export default function Envelope({ name, open, onOpen }: EnvelopeProps) {
 
         {!open && (
           <div
-            className="wax-seal absolute left-1/2 top-1/2 z-30 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-cream-50 shadow-xl shadow-emerald-950/60"
+            className="wax-seal absolute left-1/2 top-1/2 z-30 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full text-cream-50 shadow-xl shadow-emerald-950/40"
             aria-hidden="true"
           >
             <span className="seal-thread" />
