@@ -153,6 +153,148 @@ input[type='range'].vol::-moz-range-thumb {
   transform: translateY(-6px);
 }
 
+/* Envelope redesign */
+.envelope-shell {
+  width: min(22rem, 84vw);
+  aspect-ratio: 22 / 14;
+  transform-style: preserve-3d;
+  filter: drop-shadow(0 26px 32px rgba(34, 7, 12, 0.38));
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1), opacity 700ms ease;
+}
+
+.envelope-shell-sealed {
+  animation: envelopeHover 4s ease-in-out infinite;
+}
+
+.envelope-shell-sealed:hover {
+  transform: translateY(-4px) scale(1.025);
+}
+
+.envelope-shell-sealed:active {
+  transform: translateY(1px) scale(0.985);
+}
+
+.envelope-shell-open {
+  transform: scale(0.92);
+  opacity: 0.78;
+}
+
+@keyframes envelopeHover {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.envelope-back {
+  border: 1px solid rgba(231, 197, 141, 0.28);
+  border-radius: 13px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 42%),
+    linear-gradient(180deg, #741421 0%, #3A0A13 100%);
+  box-shadow: inset 0 0 35px rgba(34, 7, 12, 0.28);
+}
+
+.envelope-pocket {
+  pointer-events: none;
+}
+
+.envelope-pocket-left {
+  clip-path: polygon(0 0, 50% 57%, 0 100%);
+  background: linear-gradient(135deg, #9D1C2D 0%, #741421 58%, #4C0D18 100%);
+}
+
+.envelope-pocket-right {
+  clip-path: polygon(100% 0, 50% 57%, 100% 100%);
+  background: linear-gradient(225deg, #741421 0%, #5A101B 58%, #3A0A13 100%);
+}
+
+.envelope-pocket-bottom {
+  clip-path: polygon(0 100%, 50% 43%, 100% 100%);
+  background: linear-gradient(180deg, #8A1726 0%, #741421 48%, #4C0D18 100%);
+  border-radius: 0 0 13px 13px;
+}
+
+.envelope-flap {
+  height: 57%;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  background:
+    linear-gradient(150deg, rgba(255, 255, 255, 0.09), transparent 38%),
+    linear-gradient(180deg, #9D1C2D 0%, #741421 55%, #3A0A13 100%);
+  border-radius: 13px 13px 0 0;
+  transform-style: preserve-3d;
+  transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
+  backface-visibility: visible;
+  filter: drop-shadow(0 7px 6px rgba(34, 7, 12, 0.24));
+}
+
+.envelope-flap-open {
+  transform: rotateX(180deg);
+  z-index: 5;
+}
+
+.envelope-letter {
+  width: 82%;
+  min-height: 78%;
+  transform: translateX(-50%);
+  border: 1px solid rgba(201, 164, 92, 0.32);
+  border-radius: 7px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(231, 197, 141, 0.18), transparent 35%),
+    #F7EFDF;
+  box-shadow: 0 14px 24px rgba(34, 7, 12, 0.28);
+  padding: 1.35rem 1.25rem;
+  text-align: center;
+  transition: transform 1000ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.envelope-letter-open {
+  transform: translateX(-50%) translateY(-88%) rotate(1deg);
+}
+
+.envelope-letter-mark {
+  width: 4.5rem;
+  height: 1px;
+  margin: 0 auto 0.85rem;
+  background: linear-gradient(90deg, transparent, #CDA667, transparent);
+}
+
+.wax-seal {
+  width: 4.25rem;
+  height: 4.25rem;
+  border: 0;
+  border-radius: 48% 52% 47% 53% / 52% 48% 53% 47%;
+  color: #FFFDF9;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.24), transparent 18%),
+    radial-gradient(circle at 50% 55%, #8A1726 0 54%, #5A101B 55% 70%, #3A0A13 72%);
+  box-shadow:
+    inset 0 0 0 3px rgba(231, 197, 141, 0.22),
+    inset 0 -5px 8px rgba(34, 7, 12, 0.38),
+    0 8px 18px rgba(34, 7, 12, 0.48);
+  transition: transform 180ms ease, filter 180ms ease;
+}
+
+.wax-seal:hover {
+  transform: translate(-50%, -50%) scale(1.08) rotate(-2deg);
+  filter: brightness(1.08);
+}
+
+.wax-seal:active {
+  transform: translate(-50%, -50%) scale(0.94);
+}
+
+.wax-seal:focus-visible {
+  outline: 3px solid #E7C58D;
+  outline-offset: 5px;
+}
+
+.seal-thread {
+  position: absolute;
+  inset: 7px;
+  border: 1px solid rgba(231, 197, 141, 0.3);
+  border-radius: 45% 55% 48% 52% / 55% 45% 52% 48%;
+  transform: rotate(8deg);
+}
+
 /* Respect the visitor's "reduce motion" setting: no shimmer, floating, confetti
    rain or smooth scrolling. Content still appears, just without movement. */
 @media (prefers-reduced-motion: reduce) {
