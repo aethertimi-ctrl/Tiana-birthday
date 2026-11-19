@@ -5,6 +5,13 @@ export default {
     extend: {
       colors: {
         cream: {
+          50: '#FFF9F6',
+          100: '#F9EEF0',
+          200: '#F1DDE3',
+        },
+        ink: {
+          900: '#261D2A',
+          800: '#3A2B3E',
           50: '#FFFDF9',
           100: '#F7EFDF',
           200: '#EDE0C4',
@@ -16,6 +23,16 @@ export default {
         // Keeping the existing emerald utility names preserves every section
         // while changing the whole visual theme to deep red.
         emerald: {
+          950: '#281A30',
+          900: '#34213D',
+          800: '#49304F',
+          700: '#63415F',
+        },
+        gold: {
+          300: '#F2C8D4',
+          400: '#E7A9BD',
+          500: '#CE7897',
+          600: '#A94F73',
           950: '#22070C',
           900: '#3A0A13',
           800: '#741421',
@@ -29,8 +46,8 @@ export default {
         },
       },
       fontFamily: {
-        display: ['"Cormorant Garamond"', 'serif'],
-        body: ['Jost', 'sans-serif'],
+        display: ['"Playfair Display"', 'serif'],
+        body: ['"DM Sans"', 'sans-serif'],
       },
       animation: {
         'fade-up': 'fadeUp 0.9s cubic-bezier(0.22, 1, 0.36, 1) both',
