@@ -19,8 +19,8 @@ const wishes = [
     body: 'You deserve a year that feels gentle and full.',
   },
   {
-    title: 'May you keep choosing yourself',
-    body: 'You have grown into a woman of quiet strength and unmistakable grace. Never shrink to fit a room you have outgrown.',
+    title: 'Stay true to who you are',
+    body: 'You’ve outgrown every room that asked you to be smaller.',
   },
   {
     title: 'May good things find you early',
