@@ -30,10 +30,10 @@ const files = import.meta.glob(
  * Example: a file called `3.jpg` gets the caption under key '3'.
  */
 export const captions: Record<string, string> = {
-  '1': 'The golden hour',
-  '2': 'Laughter, always',
-  '3': 'City lights and quiet nights',
-  '4': 'Her favorite table',
+  '1': 'A smile that lights up the room',
+  '2': 'Birthday glow in full effect',
+  '3': 'Radiant in red — celebrating another beautiful year',
+  '4': 'The birthday girl in all her radiance',
   '5': 'Perfect as she is',
 };
 
