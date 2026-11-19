@@ -5,14 +5,31 @@ const MONTHS = [
   'July', 'August', 'September', 'October', 'November', 'December',
 ];
 
-/** Local midnight at the very start of the birthday, in the visitor's time zone. */
-export function birthdayStart(): Date {
-  return new Date(birthday.year, birthday.month - 1, birthday.day, 0, 0, 0);
+function birthdayInYear(year: number): Date {
+  return new Date(year, birthday.month - 1, birthday.day, 0, 0, 0);
 }
 
-/** True once the birthday has begun (and for every day after it). */
+/**
+ * Local midnight for the next birthday, in the visitor's time zone.
+ * On the birthday itself, keep today's date so the countdown doesn't roll over
+ * while the celebration is in progress. After that day, target next year.
+ */
+export function birthdayStart(now: number = Date.now()): Date {
+  const currentYear = new Date(now).getFullYear();
+  const thisYear = birthdayInYear(currentYear);
+
+  if (now < thisYear.getTime()) return thisYear;
+
+  const tomorrow = new Date(currentYear, birthday.month - 1, birthday.day + 1, 0, 0, 0);
+  return now < tomorrow.getTime() ? thisYear : birthdayInYear(currentYear + 1);
+}
+
+/** True only during the local calendar day of the birthday. */
 export function hasArrived(now: number = Date.now()): boolean {
-  return now >= birthdayStart().getTime();
+  const currentYear = new Date(now).getFullYear();
+  const start = birthdayInYear(currentYear).getTime();
+  const end = new Date(currentYear, birthday.month - 1, birthday.day + 1, 0, 0, 0).getTime();
+  return now >= start && now < end;
 }
 
 /** e.g. "November 20" */
